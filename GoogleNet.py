@@ -79,6 +79,7 @@ class GoogleNet(nn.Module):
         self.b5 = Inception(832, 384, 192, 384, 48, 128, 128)
 
         self.avpool = nn.AvgPool2d(8, stride=1)
+        self.Dropout=nn.Dropout(0.5)
         self.linear = nn.Linear(1024, 10)
 
     def forward(self, inputs):
@@ -96,5 +97,5 @@ class GoogleNet(nn.Module):
         out = self.b5(out)
         out = self.avpool(out)
         out = out.view(out.size(0), -1)
-        out = self.linear(out)
+        out = self.linear(self.Dropout(out))
         return out
